@@ -1,5 +1,5 @@
 // Initialize Firestore
-const db = firebase.firestore();
+const db = getFirestore(app);
 
 // Function to add a client to Firestore
 function cadastrarCliente() {
