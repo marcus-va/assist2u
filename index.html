@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Clientes</title>
-</head>
-<body>
 
     <script type="module">
   // Import the functions you need from the SDKs you need
@@ -27,31 +21,35 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
 </script>
-
     
-    <h1>Cadastro de Clientes</h1>
-    
-    <form id="clienteForm">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" required>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Cliente Cadastro</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Cadastro de Clientes</h1>
+        <form id="cadastroForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" required>
+            
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
+            <button type="button" onclick="cadastrarCliente()">Cadastrar</button>
+        </form>
 
-        <label for="telefone">Telefone:</label>
-        <input type="tel" id="telefone" required>
+        <h2>Lista de Clientes</h2>
+        <ul id="listaClientes"></ul>
+    </div>
 
-        <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" required>
-
-        <button type="button" onclick="cadastrarCliente()">Cadastrar</button>
-    </form>
-
-    <div id="clientesList"></div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
