@@ -1,36 +1,22 @@
-// Configuração do Firebase
-const firebaseConfig = {
-    apiKey: 'SuaAPIKey',
-    authDomain: 'SeuDominio.firebaseapp.com',
-    projectId: 'SeuProjetoId',
-    storageBucket: 'SeuBucket.appspot.com',
-    messagingSenderId: 'SeuSenderId',
-    appId: 'SuaAppId'
-};
-
-// Inicialização do Firebase
-firebase.initializeApp(firebaseConfig);
-
-// Inicialização do Firestore
+// Initialize Firestore
 const db = firebase.firestore();
 
-// Função para cadastrar um novo cliente
+// Function to add a client to Firestore
 function cadastrarCliente() {
     const nome = document.getElementById('nome').value;
     const email = document.getElementById('email').value;
     const telefone = document.getElementById('telefone').value;
     const endereco = document.getElementById('endereco').value;
 
-    // Adiciona o cliente ao Firestore
     db.collection('clientes').add({
-        nome: nome,
-        email: email,
-        telefone: telefone,
-        endereco: endereco
+        nome,
+        email,
+        telefone,
+        endereco
     })
     .then(() => {
-        alert('Cliente cadastrado com sucesso!');
-        document.getElementById('clienteForm').reset();
+        console.log('Cliente cadastrado com sucesso!');
+        document.getElementById('cadastroForm').reset();
         listarClientes();
     })
     .catch(error => {
@@ -38,33 +24,26 @@ function cadastrarCliente() {
     });
 }
 
-// Função para listar todos os clientes
+// Function to list all clients from Firestore
 function listarClientes() {
-    const clientesList = document.getElementById('clientesList');
+    const listaClientes = document.getElementById('listaClientes');
+    listaClientes.innerHTML = '';
 
-    // Limpa a lista
-    clientesList.innerHTML = '';
-
-    // Consulta todos os clientes no Firestore
     db.collection('clientes').get()
-    .then(snapshot => {
-        snapshot.forEach(doc => {
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
             const cliente = doc.data();
-            const clienteItem = document.createElement('div');
-            clienteItem.innerHTML = `
-                <strong>${cliente.nome}</strong><br>
-                Email: ${cliente.email}<br>
-                Telefone: ${cliente.telefone}<br>
-                Endereço: ${cliente.endereco}<br>
-                <hr>
-            `;
-            clientesList.appendChild(clienteItem);
+            const listItem = document.createElement('li');
+            listItem.textContent = `Nome: ${cliente.nome}, Email: ${cliente.email}, Telefone: ${cliente.telefone}, Endereço: ${cliente.endereco}`;
+            listaClientes.appendChild(listItem);
         });
     })
     .catch(error => {
-        console.error('Erro ao listar clientes: ', error);
+        console.error('Erro ao obter clientes: ', error);
     });
 }
 
-// Lista os clientes ao carregar a página
-listarClientes();
+// Listen for changes in Firestore and update the list
+db.collection('clientes').onSnapshot(() => {
+    listarClientes();
+});
